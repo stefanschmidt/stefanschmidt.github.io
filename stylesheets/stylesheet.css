@@ -74,6 +74,7 @@ h1 {
 h2 {
   padding-bottom: 10px;
   font-size: 32px;
+  background: url('../images/bg_hr.png') repeat-x bottom;
 }
 
 h3 {
@@ -241,7 +242,7 @@ table {
 th {
   font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 10px;
-  background: #60a7d1;
+  background: #373737;
   color: #fff;
  }
 
