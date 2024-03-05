@@ -25,9 +25,32 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h4>NumPy Vectorization and Broadcasting</h4>
+        <h3>A Mathematical View on Broadcasting</h3>
         <p style="font-size:16px; color: #777">March 5, 2024</p>
-        <p>An interesting mechanism in how...</p>
+        <p>The <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">Broadcasting</a> mechanism in NumPy is usually introduced by explaining the relevant rules.</p>
+        <p>Another perspective is to look at the topic from a <a href="https://books.google.de/books?id=NJw3EAAAQBAJ&pg=PA101">mathematical viewpoint</a>.</p>
+        <p>The initial example is the addition of a function and a constant.</p>
+
+        <!--f := sin + C\\-->
+        <img src="images/broadcasting-1.png" width="25%">
+
+        <p>The authors argue that this is not proper mathematical notation and resolve it by defining a broadcast function for the constant.</p>
+
+        <!--\overline{C}:=C \text{ for all } x-->        
+        <img src="images/broadcasting-2.png" width="30%">
+
+<p>The result is the addition two functions.</p>
+
+        <!-- f := sin + \overline{C} -->
+        <img src="images/broadcasting-3.png" width="25%">
+
+<p>Which could also be written as</p>
+
+        <!-- f := sin + \overline{C} -->
+        <img src="images/broadcasting-4.png" width="35%">
+
+<p>It is not quite clear to me what the intention of the authors was to leave out the function parameters. I assume they were left out because they are not relevant to the argument.</p>
+
         <h4>Start</h4>
         <p style="font-size:16px; color: #777">March 5, 2024</p>
         <p>Here I will write about things related to data science.</p>
