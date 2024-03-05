@@ -74,7 +74,6 @@ h1 {
 h2 {
   padding-bottom: 10px;
   font-size: 32px;
-  background: url('../images/bg_hr.png') repeat-x bottom;
 }
 
 h3 {
@@ -242,7 +241,7 @@ table {
 th {
   font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 10px;
-  background: #373737;
+  background: #60a7d1;
   color: #fff;
  }
 
@@ -252,7 +251,7 @@ td {
  }
 
 form {
-  background: #f2f2f2;
+  background: #60a7d1;
   padding: 20px;
 }
 
@@ -350,7 +349,7 @@ Full-Width Styles
 }
 
 #main_content_wrap {
-  background: #f2f2f2;
+  background: #60a7d1;
   border-top: 1px solid #111;
   border-bottom: 1px solid #111;
 }
@@ -360,7 +359,7 @@ Full-Width Styles
 }
 
 #footer_wrap {
-  background: #212121;
+  background: #60a7d1;
 }
 
 
