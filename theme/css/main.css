@@ -70,6 +70,10 @@ div.line-block,
 p { margin-top: 1em;
     margin-bottom: 1em;}
 
+p {
+  font-size: 120%;
+}
+
 strong, b {font-weight: bold;}
 em, i {font-style: italic;}
 
