@@ -13,13 +13,53 @@
                 <h1><a href="/">Notes on Data Science</a></h1>
                 <nav><ul>
                     <li><a href="/category/internal.html">Internal</a></li>
+                    <li><a href="/category/jupyter.html">Jupyter</a></li>
                     <li><a href="/category/numpy.html">NumPy</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/a-mathematical-view-on-broadcasting.html">A Mathematical View on Broadcasting</a></h1>
+                    <h1 class="entry-title"><a href="/an-iterative-workflow-for-jupyter-notebook.html">An Iterative Workflow for Jupyter Notebook</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2024-04-02T00:00:00+02:00">
+                Published: Tue 02 April 2024
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
+        </address>
+<p>In <a href="/category/jupyter.html">Jupyter</a>.</p>
+
+</footer><!-- /.post-info --><p>Inspecting a data set is usually not a linear process, but involves iterative refinement of the initial assumptions and question. One might have an initial question but after taking a look at the data set realize that it requires multiple preprocessing steps before it can be used to address the question.</p>
+<p>Jupyter Notebook may be very nice for presenting the <em>results</em> of a data analysis, but using it for an iterative workflow feels not nearly as productive as working on the command-line interface with the Python interpreter, which leaves the question if there is some room for improvement.</p>
+<p>One thing I noticed that eats up <em>a lot</em> of time while working with Jupyter Notebook is scrolling through the notebook to locate something in a cell. This can be a snippet of code, some documentation or an error message.</p>
+<h1>More keyboard, less mouse</h1>
+<p>One obvious way to increase productivity is to to work with the keyboard as much as possible, not touching the mouse unless absolutely necessary. Reminding of Vims modes, Jupyter Notebook allows switching between edit mode and command mode allowing to move upwards and downwards, insert and remove cells, etc. and has keyboard shortcuts at least for some menu entries.</p>
+<h1>Less scrolling in error messages</h1>
+<p>Another thing I noticed is that error messages feel <em>very</em> verbose compared to the command-line interface. To see the actual exception one often needs to repeatedly scroll downwards. When comparing the form of presentation to the Python command-line interface I noticed that the error messages not only include the stack trace but also the context of each function call. This may certainly be useful if one is debugging or developing an API, but otherwise it is often merely a form of distraction. Having less verbose error messages would mean spending less time on scrolling through the notebook.</p>
+<p>Luckily the IPython kernel in Jupyter Notebook provides several levels of verbosity for exceptions: <code>Plain</code>, <code>Context</code>, <code>Verbose</code> and <code>Minimal</code>. The default is <code>Context</code> which is even more verbose than the default in the Python Interpreter. <code>Minimal</code> ommits the stack trace, showing just the actual exception.</p>
+<p>To set the exception verbosity in Jupyter for an individual notebook one can use <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-xmode"><code>xmode</code></a>. There is also a configuration setting <a href="https://ipython.readthedocs.io/en/stable/config/options/kernel.html#configtrait-InteractiveShell.xmode"><code>c.InteractiveShell.xmode</code></a> that can be enabled in <a href="https://ipython.readthedocs.io/en/stable/config/intro.html"><code>ipython_kernel_config.py</code></a>.</p>
+<p>In comparison the Python interpreter allows to set the verbosity either on the command-line with <a href="https://docs.python.org/3/using/cmdline.html#cmdoption-v"><code>-v</code></a>, by setting the environment variable <a href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHONVERBOSE"><code>PYTHONVERBOSE</code></a> or in the interpreter using <a href="https://docs.python.org/3/library/sys.html#sys.tracebacklimit"><code>sys.tracebacklimit</code></a>.</p>
+<h1>Connect the terminal with the browser</h1>
+<p>Minimizing the number of mouse interactions by using keyboard shortcuts and reducing the scrolling through error messages by making them less verbose certainly has some potential to make an iterative workflow in Juypter Notebook more productive.</p>
+<p>A different approach would be have an integration of the Python interpreter in the terminal and the notebook in the browser allowing to seamlessly switch back and forth. Any variable created in the notebook should be available in the Python interpreter in the terminal and vice-versa. While Jupyter <em>does</em> allow to open a console within the browser it does not provide the same user experience as the Python interpreter in a terminal window.</p>
+<p>Connecting the original Python interpreter to the kernel of an already running notebook is certainly technically possible but it seems there is no convenient built-in method that wraps things nicely up.</p>
+<p>It is however possible to connect an IPython interpreter in the terminal with the kernel of an already running notebook using either <code>jupyter console --existing</code> to connect to the most recent kernel that was started or <code>jupyter console --existing kernel.json</code> to connect to a specific kernel. To get the file name of a kernel from an already running notebook one can use <a href="https://ipython.readthedocs.io/en/stable/overview.html"><code>%connect_info</code></a>.</p>
+<p>While the IPython interpreter is supposed to provide an improved user experience I prefer the original Python interpreter. A workaround might be to adjust the behaviour of the IPython interpreter to more closely align with the original Python interpreter but I have not investigated if that is possible. Nonetheless being able to connect from the terminal to an already running notebook in Jupyter is a promising productivity gain.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/a-mathematical-view-on-broadcasting.html" rel="bookmark"
+                           title="Permalink to A Mathematical View on Broadcasting">A Mathematical View on Broadcasting</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2024-03-05T00:00:00+01:00">
                 Published: Tue 05 March 2024
@@ -30,26 +70,15 @@
         </address>
 <p>In <a href="/category/numpy.html">NumPy</a>.</p>
 
-</footer><!-- /.post-info --><p>The <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">Broadcasting</a> mechanism in NumPy is usually introduced by explaining the relevant rules.</p></p>
+</footer><!-- /.post-info -->                <p>The <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">Broadcasting</a> mechanism in NumPy is usually introduced by explaining the relevant rules.</p></p>
 <p>Another perspective is to look at the topic from a <a href="https://books.google.de/books?id=NJw3EAAAQBAJ&amp;pg=PA101&quot;">mathematical viewpoint</a>.</p>
 <p>The initial example is the addition of a function and a constant.</p>
 <!--f:= sin + C\\-->
 <p><img src="images/broadcasting-1.png" width="15%"></p>
-<p>The authors argue that this is not proper mathematical notation and resolve it by defining a broadcast function for the constant.</p>
-<!--\overline{C}:=C \text{for all} x-->
-<p><img src="images/broadcasting-2.png" width="18%"></p>
-<p>The result is the addition two functions.</p>
-<!-- f:= sin + \overline{C} -->
-<p><img src="images/broadcasting-3.png" width="16%"></p>
-<p>Which could also be written as</p>
-<!-- f:= sin + \overline{C} -->
-<p><img src="images/broadcasting-4.png" width="22%"></p>
-<p>It is not quite clear to me what the intention of the authors was to leave out the function parameters. I assume they were left out because they are not relevant to the argument.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>The authors argue that this is not proper mathematical notation and resolve it …</p>
+                <a class="readmore" href="/a-mathematical-view-on-broadcasting.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
