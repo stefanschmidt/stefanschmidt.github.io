@@ -34,17 +34,13 @@
 </footer><!-- /.post-info --><p>The <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">Broadcasting</a> mechanism in NumPy is usually introduced by explaining the relevant rules.</p></p>
 <p>Another perspective is to look at the topic from a <a href="https://books.google.de/books?id=NJw3EAAAQBAJ&amp;pg=PA101">mathematical viewpoint</a>.</p>
 <p>The initial example is the addition of a function and a constant.</p>
-<!--f:= sin + C\\-->
-<p><img src="images/broadcasting-1.png" width="15%"></p>
+<div class="math">$$f:= \sin{} + C$$</div>
 <p>The authors argue that this is not proper mathematical notation and resolve it by defining a broadcast function for the constant.</p>
-<!--\overline{C}:=C \text{for all} x-->
-<p><img src="images/broadcasting-2.png" width="18%"></p>
+<div class="math">$$\overline{C}:= C \thinspace \text{ for all } x$$</div>
 <p>The result is the addition two functions.</p>
-<!-- f:= sin + \overline{C} -->
-<p><img src="images/broadcasting-3.png" width="16%"></p>
+<div class="math">$$f:= \sin{} + \overline{C}$$</div>
 <p>Which could also be written as</p>
-<!-- f:= sin + \overline{C} -->
-<p><img src="images/broadcasting-4.png" width="22%"></p>
+<div class="math">$$f:= \sin(x) + \overline{C}(x)$$</div>
 <p>It is not quite clear to me what the intention of the authors was to leave out the function parameters. I assume they were left out because they are not relevant to the argument.</p>
 <p>The question <a href="https://math.stackexchange.com/questions/65002/are-one-by-one-matrices-equivalent-to-scalars">wether a 1×1 matrix should be considered a scalar</a> is a similar topic with regard to notation.</p>
 <p>A perspective that tries to bring together rigour and practicality:</p>
@@ -53,7 +49,7 @@
 </blockquote>
 <p>With the objection:</p>
 <blockquote>
-<p>We can cast any real 𝑥 to the constant function on ℝ whose value is always 𝑥, but are reals and constant functions "functionally equivalent"? Well... no, a function can be evaluated at a point, while a real has no such feature.</p>
+<p>We can cast any real <span class="math">\(x\)</span> to the constant function on <span class="math">\(\mathbb{R}\)</span> whose value is always <span class="math">\(x\)</span>, but are reals and constant functions "functionally equivalent"? Well... no, a function can be evaluated at a point, while a real has no such feature.</p>
 </blockquote>
 <p>And the remark:</p>
 <blockquote>
@@ -82,7 +78,70 @@
 <span class="go">&lt;class &#39;numpy.int64&#39;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 <span class="go">&lt;class &#39;int&#39;&gt;</span>
-</code></pre></div>                </article>
+</code></pre></div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>                </article>
             </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">

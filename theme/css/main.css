@@ -19,7 +19,7 @@
 body {
     background: #F5F4EF;
     color: #000305;
-    font-size: 87.5%; /* Base font size: 14px */
+    font-size: 14px; /* Base */
     font-family: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     line-height: 1.429;
     margin: 0;
@@ -70,8 +70,8 @@ div.line-block,
 p { margin-top: 1em;
     margin-bottom: 1em;}
 
-p {
-  font-size: 120%;
+article {
+  font-size: 1.3em;
 }
 
 strong, b {font-weight: bold;}
@@ -93,7 +93,8 @@ li { margin-top: 0.5em;
 
 .post-info {
     float:right;
-    margin-right:40px;
+    margin-left:3%;
+    margin-right:3%;
     padding:5px;
 }
 
@@ -108,7 +109,12 @@ dl {margin: 0 0 1.5em 0;}
 dt {font-weight: bold;}
 dd {margin-left: 1.5em;}
 
-pre{background-color:  rgb(238, 238, 238); padding: 10px; margin: 10px; overflow: auto;}
+pre {
+  background-color:  rgb(238, 238, 238);
+  padding: 10px;
+  margin: 10px;
+  overflow: auto;
+}
 
 /* Quotes */
 blockquote {
