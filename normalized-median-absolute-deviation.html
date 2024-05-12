@@ -4,8 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content="Pelican" />
-        <title>Notes on Data Science</title>
+        <title>Normalized Median Absolute Deviation</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="For detecting outliers in non-normally distributed data a common approach is computing the modified z-scores. Instead of the standard deviation..." />
 </head>
 
 <body id="index" class="home">
@@ -15,13 +16,18 @@
                     <li><a href="/category/internal.html">Internal</a></li>
                     <li><a href="/category/jupyter.html">Jupyter</a></li>
                     <li><a href="/category/numpy.html">NumPy</a></li>
-                    <li><a href="/category/statistics.html">Statistics</a></li>
+                    <li class="active"><a href="/category/statistics.html">Statistics</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/normalized-median-absolute-deviation.html" rel="bookmark"
+           title="Permalink to Normalized Median Absolute Deviation">Normalized Median Absolute Deviation</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="/normalized-median-absolute-deviation.html">Normalized Median Absolute Deviation</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2024-05-12T00:00:00+02:00">
                 Published: Sun 12 May 2024
@@ -32,7 +38,7 @@
         </address>
 <p>In <a href="/category/statistics.html">Statistics</a>.</p>
 
-</footer><!-- /.post-info --><p>For detecting outliers in non-normally distributed data a common approach is computing the <em>modified z-scores</em>.</p>
+</footer><!-- /.post-info -->      <p>For detecting outliers in non-normally distributed data a common approach is computing the <em>modified z-scores</em>.</p>
 <p>Instead of the standard deviation the median absolute deviation is used as a measure of variability. The metric is defined as the median of the the absolute deviations from the sample median.</p>
 <div class="math">$${\tilde {X}}=\operatorname {median} (X)$$</div>
 <div class="math">$$\operatorname {MAD} =\operatorname {median} (|X_{i}-{\tilde {X}}|)$$</div>
@@ -133,111 +139,11 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-</script>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</script>
+    </div><!-- /.entry-content -->
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/standard-normal-distribution-in-a-nutshell.html" rel="bookmark"
-                           title="Permalink to Standard Normal Distribution in a Nutshell">Standard Normal Distribution in a Nutshell</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2024-04-28T00:00:00+02:00">
-                Published: Sun 28 April 2024
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
-        </address>
-<p>In <a href="/category/statistics.html">Statistics</a>.</p>
-
-</footer><!-- /.post-info -->                <p>Given a Gaussian function that depicts the well-known bell-shaped curve.</p>
-<div class="math">$$p(x)=e^{-x^{2}/2},\quad x\in (-\infty ,\infty )$$</div>
-<p>We can compute the integral.</p>
-<div class="math">$$\int _{-\infty }^{\infty }p(x)\,dx=\int _{-\infty }^{\infty }e^{-x^{2}/2}\,dx={\sqrt {2\pi \,}}.$$</div>
-<p>Dividing the Gaussian function by …</p>
-                <a class="readmore" href="/standard-normal-distribution-in-a-nutshell.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/an-iterative-workflow-for-jupyter-notebook.html" rel="bookmark"
-                           title="Permalink to An Iterative Workflow for Jupyter Notebook">An Iterative Workflow for Jupyter Notebook</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2024-04-02T00:00:00+02:00">
-                Published: Tue 02 April 2024
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
-        </address>
-<p>In <a href="/category/jupyter.html">Jupyter</a>.</p>
-
-</footer><!-- /.post-info -->                <p>Inspecting a data set is usually not a linear process, but involves iterative refinement of the initial assumptions and question. One might have an initial question but after taking a look at the data set realize that it requires multiple preprocessing steps before it can be used to address the …</p>
-                <a class="readmore" href="/an-iterative-workflow-for-jupyter-notebook.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/a-mathematical-view-on-broadcasting.html" rel="bookmark"
-                           title="Permalink to A Mathematical View on Broadcasting">A Mathematical View on Broadcasting</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2024-03-05T00:00:00+01:00">
-                Published: Tue 05 March 2024
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
-        </address>
-<p>In <a href="/category/numpy.html">NumPy</a>.</p>
-
-</footer><!-- /.post-info -->                <p>The <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">Broadcasting</a> mechanism in NumPy is usually introduced by explaining the relevant rules.</p></p>
-<p>Another perspective is to look at the topic from a <a href="https://books.google.de/books?id=NJw3EAAAQBAJ&amp;pg=PA101">mathematical viewpoint</a>.</p>
-<p>The initial example is the addition of a function and a constant.</p>
-<div class="math">$$f:= \sin{} + C$$</div>
-<p>The authors argue that this is not proper mathematical notation …</p>
-                <a class="readmore" href="/a-mathematical-view-on-broadcasting.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/start.html" rel="bookmark"
-                           title="Permalink to Start">Start</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2024-03-05T00:00:00+01:00">
-                Published: Tue 05 March 2024
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
-        </address>
-<p>In <a href="/category/internal.html">Internal</a>.</p>
-
-</footer><!-- /.post-info -->                <p>Here I will write about things related to data science.</p>
-<p>For now this site is just a mockup. I will probably use a static site generator and Drafts to write postings.</p>
-                <a class="readmore" href="/start.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-                </ol><!-- /#posts-list -->
-                </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>Interesting Stuff</h2>
