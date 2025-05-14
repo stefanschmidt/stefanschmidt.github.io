@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Notes on Data Science - NumPy</title><link href="https://stefanschmidt.github.io/" rel="alternate"></link><link href="https://stefanschmidt.github.io/feeds/numpy.atom.xml" rel="self"></link><id>https://stefanschmidt.github.io/</id><updated>2024-03-05T00:00:00+01:00</updated><entry><title>A Mathematical View on Broadcasting</title><link href="https://stefanschmidt.github.io/a-mathematical-view-on-broadcasting.html" rel="alternate"></link><published>2024-03-05T00:00:00+01:00</published><updated>2024-03-05T00:00:00+01:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-03-05:/a-mathematical-view-on-broadcasting.html</id><summary type="html">&lt;p&gt;The &lt;a href="https://numpy.org/doc/stable/user/basics.broadcasting.html"&gt;Broadcasting&lt;/a&gt; mechanism in NumPy is usually introduced by explaining the relevant rules.&lt;/p&gt;&lt;/p&gt;
+&lt;p&gt;Another perspective is to look at the topic from a &lt;a href="https://books.google.de/books?id=NJw3EAAAQBAJ&amp;amp;pg=PA101"&gt;mathematical viewpoint&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The initial example is the addition of a function and a constant.&lt;/p&gt;
+&lt;div class="math"&gt;$$f:= \sin{} + C$$&lt;/div&gt;
+&lt;p&gt;The authors argue that this is not proper mathematical notation …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The &lt;a href="https://numpy.org/doc/stable/user/basics.broadcasting.html"&gt;Broadcasting&lt;/a&gt; mechanism in NumPy is usually introduced by explaining the relevant rules.&lt;/p&gt;&lt;/p&gt;
+&lt;p&gt;Another perspective is to look at the topic from a &lt;a href="https://books.google.de/books?id=NJw3EAAAQBAJ&amp;amp;pg=PA101"&gt;mathematical viewpoint&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The initial example is the addition of a function and a constant.&lt;/p&gt;
+&lt;div class="math"&gt;$$f:= \sin{} + C$$&lt;/div&gt;
+&lt;p&gt;The authors argue that this is not proper mathematical notation and resolve it by defining a broadcast function for the constant.&lt;/p&gt;
+&lt;div class="math"&gt;$$\overline{C}:= C \thinspace \text{ for all } x$$&lt;/div&gt;
+&lt;p&gt;The result is the addition of two functions, the sine function and a constant function.&lt;/p&gt;
+&lt;div class="math"&gt;$$f:= \sin{} + \overline{C}$$&lt;/div&gt;
+&lt;p&gt;Which could also be written as&lt;/p&gt;
+&lt;div class="math"&gt;$$f:= \sin(x) + \overline{C}(x)$$&lt;/div&gt;
+&lt;p&gt;It is not quite clear to me what the intention of the authors was to leave out the function parameters. I assume they were omitted to make it clear that what being talked about is the mathematical objects rather than specific numerical outputs.&lt;/p&gt;
+&lt;p&gt;The question &lt;a href="https://math.stackexchange.com/questions/65002/are-one-by-one-matrices-equivalent-to-scalars"&gt;whether a 1×1 matrix should be considered a scalar&lt;/a&gt; is a similar topic with regard to notation.&lt;/p&gt;
+&lt;p&gt;A perspective that tries to bring together rigour and practicality:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A 1×1 matrix is not a scalar–it is an element of a matrix algebra. However, there is sometimes a meaningful way of treating a 1×1 matrix as though it were a scalar, hence in many contexts it is useful to treat such matrices as being "functionally equivalent" to scalars. It might be a little sloppy to do so, but a little bit of sloppiness is forgivable if it introduces no confusion or ambiguity, and if it aids brevity or clarity of exposition.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;With the objection:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We can cast any real &lt;span class="math"&gt;\(x\)&lt;/span&gt; to the constant function on &lt;span class="math"&gt;\(\mathbb{R}\)&lt;/span&gt; whose value is always &lt;span class="math"&gt;\(x\)&lt;/span&gt;, but are reals and constant functions "functionally equivalent"? Well... no, a function can be evaluated at a point, while a real has no such feature.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;And the remark:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Okay I guess the added words "in the right context", in the right context, would evade my objection. Namely, if we interpret it to mean that scalars and 1-by-1 matrices, when used in certain specific ways, can be treated as functionally equivalent, then I agree. =)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Handling of a 1x1 array in NumPy:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reshape&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;numpy.ndarray&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
+&lt;span class="go"&gt;(1, 1)&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;numpy.int64&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;int&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Similar for a zero-dimensional array:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;numpy.ndarray&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
+&lt;span class="go"&gt;()&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[()])&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;numpy.int64&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;int&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="NumPy"></category></entry></feed>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Notes on Data Science - Statistics</title><link href="https://stefanschmidt.github.io/" rel="alternate"></link><link href="https://stefanschmidt.github.io/feeds/statistics.atom.xml" rel="self"></link><id>https://stefanschmidt.github.io/</id><updated>2024-05-12T00:00:00+02:00</updated><entry><title>Normalized Median Absolute Deviation</title><link href="https://stefanschmidt.github.io/normalized-median-absolute-deviation.html" rel="alternate"></link><published>2024-05-12T00:00:00+02:00</published><updated>2024-05-12T00:00:00+02:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-05-12:/normalized-median-absolute-deviation.html</id><summary type="html">&lt;p&gt;For detecting outliers in non-normally distributed data a common approach is computing the &lt;em&gt;modified z-scores&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Instead of the standard deviation the median absolute deviation is used as a measure of variability. The metric is defined as the median of the the absolute deviations from the sample median.&lt;/p&gt;
+&lt;div class="math"&gt;$${\tilde {X}}=\operatorname …&lt;/div&gt;</summary><content type="html">&lt;p&gt;For detecting outliers in non-normally distributed data a common approach is computing the &lt;em&gt;modified z-scores&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Instead of the standard deviation the median absolute deviation is used as a measure of variability. The metric is defined as the median of the the absolute deviations from the sample median.&lt;/p&gt;
+&lt;div class="math"&gt;$${\tilde {X}}=\operatorname {median} (X)$$&lt;/div&gt;
+&lt;div class="math"&gt;$$\operatorname {MAD} =\operatorname {median} (|X_{i}-{\tilde {X}}|)$$&lt;/div&gt;
+&lt;p&gt;The median absolute deviation can then be used to derive the modified z-scores. To make the scores comparable to the standard z-scores a normalization factor is added.&lt;/p&gt;
+&lt;div class="math"&gt;$$\operatorname{Modified\_Z} = \frac{0.6745\thinspace(X_{i}-{\tilde {X}})}{\operatorname {MAD}}$$&lt;/div&gt;
+&lt;p&gt;One might wonder where the normalization constant comes from and how it can be derived.&lt;/p&gt;
+&lt;p&gt;A naive empirical approach is to compute the median absolute deviation for a sufficiently large sample from the standard normal distribution.&lt;/p&gt;
+&lt;div class="math"&gt;$$Z \sim \mathcal{N}(0, 1)$$&lt;/div&gt;
+&lt;div class="math"&gt;$$\operatorname{MAD}(Z) \approx 0.6745$$&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;norm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rvs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100000000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;median_abs_deviation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6745&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Since the mean and the median of the standard normal distribution are both &lt;span class="math"&gt;\(\mu = 0\)&lt;/span&gt; the median absolute deviation simplifies to the median of the absolute values of the sample.&lt;/p&gt;
+&lt;div class="math"&gt;$$\operatorname{MAD}(Z) = \operatorname {median} (|Z|) \approx 0.6745$$&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;median&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6745&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Applying the absolute function to a sample that follows the standard normal distribution results in a &lt;a href="https://en.wikipedia.org/wiki/Half-normal_distribution"&gt;standard half-normal distribution&lt;/a&gt; where the quantile is defined as&lt;/p&gt;
+&lt;div class="math"&gt;$$Q(F)= {\sqrt {2}}\operatorname {erf} ^{-1}(F)$$&lt;/div&gt;
+&lt;p&gt;and therefore the median can be computed as     &lt;/p&gt;
+&lt;div class="math"&gt;$$\operatorname {median} (|Z|) = {\sqrt {2}}\operatorname {erf} ^{-1}(1/2)\approx 0.6745$$&lt;/div&gt;
+&lt;p&gt;While the inverse error function has no closed-form solution it can be efficiently approximated, providing a much more convenient method for deriving the normalization factor.&lt;/p&gt;
+&lt;p&gt;SciPy provides various ways to compute the median of the standard half-normal distribution.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;halfnorm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;median&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960817&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;halfnorm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ppf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960817&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;norm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ppf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.75&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960817&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;special&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;erfinv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960818&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;special&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ndtri&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.75&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960817&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The SciPy implementation of the inverse error function uses different approximation approaches depending upon the input value. The original implementation can be found in &lt;a href="https://github.com/scipy/scipy/blob/afc5f9da5760c5925ff49d1aa875446c1637d123/scipy/special/cephes/ndtri.c"&gt;&lt;code&gt;ndtri.c&lt;/code&gt;&lt;/a&gt;. The algorithm essentially performs a rational polynomial approximation. A &lt;a href="https://gist.github.com/stefanschmidt/d4cd1d8622c288a43b3af26ee82f01ee"&gt;minimal reimplementation&lt;/a&gt; of &lt;code&gt;ndtri.c&lt;/code&gt; yields the same approximation. The implementation may have originated from &lt;a href="https://openlibrary.org/works/OL4789014W/Methods_and_programs_for_mathematical_functions"&gt;Methods and Programs for Mathematical Functions &lt;/a&gt;.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Statistics"></category></entry><entry><title>Standard Normal Distribution in a Nutshell</title><link href="https://stefanschmidt.github.io/standard-normal-distribution-in-a-nutshell.html" rel="alternate"></link><published>2024-04-28T00:00:00+02:00</published><updated>2024-04-28T00:00:00+02:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-04-28:/standard-normal-distribution-in-a-nutshell.html</id><summary type="html">&lt;p&gt;Given a Gaussian function that depicts the well-known bell-shaped curve.&lt;/p&gt;
+&lt;div class="math"&gt;$$p(x)=e^{-x^{2}/2},\quad x\in (-\infty ,\infty )$$&lt;/div&gt;
+&lt;p&gt;We can compute the integral.&lt;/p&gt;
+&lt;div class="math"&gt;$$\int _{-\infty }^{\infty }p(x)\,dx=\int _{-\infty }^{\infty }e^{-x^{2}/2}\,dx={\sqrt {2\pi \,}}.$$&lt;/div&gt;
+&lt;p&gt;Dividing the Gaussian function by …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Given a Gaussian function that depicts the well-known bell-shaped curve.&lt;/p&gt;
+&lt;div class="math"&gt;$$p(x)=e^{-x^{2}/2},\quad x\in (-\infty ,\infty )$$&lt;/div&gt;
+&lt;p&gt;We can compute the integral.&lt;/p&gt;
+&lt;div class="math"&gt;$$\int _{-\infty }^{\infty }p(x)\,dx=\int _{-\infty }^{\infty }e^{-x^{2}/2}\,dx={\sqrt {2\pi \,}}.$$&lt;/div&gt;
+&lt;p&gt;Dividing the Gaussian function by this factor scales the area under the curve to one which gives us the probability density function of the standard normal distribution.&lt;/p&gt;
+&lt;div class="math"&gt;$$\varphi (x)={\frac {1}{\sqrt {2\pi \,}}}p(x)={\frac {1}{\sqrt {2\pi \,}}}e^{-x^{2}/2}$$&lt;/div&gt;
+&lt;p&gt;One can see that including the factor of &lt;span class="math"&gt;\(\frac{1}{2}\)&lt;/span&gt; in the Gaussian function gives us the established definition of the standard normal distribution having &lt;span class="math"&gt;\(\mu = 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(\sigma = 1\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;If one wonders why the normalization constant includes &lt;span class="math"&gt;\(\pi\)&lt;/span&gt; in the denominator, the answer is a bit more involved but the short version is that when computing the &lt;a href="https://en.wikipedia.org/wiki/Gaussian_integral"&gt;Gaussian Integral&lt;/a&gt; the variables are transformed to polar coordinates.&lt;/p&gt;
+&lt;p&gt;I stumbled over this derivation while peeking into &lt;a href="https://books.google.de/books?id=QRpvEAAAQBAJ&amp;amp;printsec=frontcover"&gt;The Principles of Deep Learning Theory&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The text is rather dense, but appears to be a wortwhile read.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Statistics"></category></entry></feed>

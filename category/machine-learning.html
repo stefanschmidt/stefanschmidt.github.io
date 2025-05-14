@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content="Pelican" />
-        <title>Notes on Data Science - Internal</title>
+        <title>Notes on Data Science - Machine Learning</title>
         <link rel="stylesheet" href="https://stefanschmidt.github.io/theme/css/main.css" />
         <link href="https://stefanschmidt.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Notes on Data Science Atom Feed" />
 </head>
@@ -13,9 +13,9 @@
         <header id="banner" class="body">
                 <h1><a href="https://stefanschmidt.github.io/">Notes on Data Science</a></h1>
                 <nav><ul>
-                    <li class="active"><a href="https://stefanschmidt.github.io/category/internal.html">Internal</a></li>
+                    <li><a href="https://stefanschmidt.github.io/category/internal.html">Internal</a></li>
                     <li><a href="https://stefanschmidt.github.io/category/jupyter.html">Jupyter</a></li>
-                    <li><a href="https://stefanschmidt.github.io/category/machine-learning.html">Machine Learning</a></li>
+                    <li class="active"><a href="https://stefanschmidt.github.io/category/machine-learning.html">Machine Learning</a></li>
                     <li><a href="https://stefanschmidt.github.io/category/numpy.html">NumPy</a></li>
                     <li><a href="https://stefanschmidt.github.io/category/statistics.html">Statistics</a></li>
                 </ul></nav>
@@ -23,19 +23,31 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://stefanschmidt.github.io/start.html">Start</a></h1>
+                    <h1 class="entry-title"><a href="https://stefanschmidt.github.io/linear-oscillatory-state-space-models.html">Linear oscillatory state-space models</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2024-03-05T00:00:00+01:00">
-                Published: Tue 05 March 2024
+        <abbr class="published" title="2024-05-14T00:00:00+02:00">
+                Published: Tue 14 May 2024
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="https://stefanschmidt.github.io/author/stefan.html">Stefan</a>
         </address>
-<p>In <a href="https://stefanschmidt.github.io/category/internal.html">Internal</a>.</p>
+<p>In <a href="https://stefanschmidt.github.io/category/machine-learning.html">Machine Learning</a>.</p>
 
-</footer><!-- /.post-info --><p>Here I will write about things related to data science.</p>
-<p>For now this site is just a mockup. I will probably use a static site generator and Drafts to write postings.</p>                </article>
+</footer><!-- /.post-info --><p>A common critique of machine learning research is that the results of many papers are based on trial-and-error, often representing only minor modifications of existing approaches and without any proper justification of the design decisions. The typical justification for publication is that a model resulted in a good score on some established benchmark, with the <a href="https://arxiv.org/abs/2502.00561">validity of these benchmarks</a> being a topic on its own. Even from an engineering perspective this is obviously highly undesirable.</p>
+<p>I was therefore very delighted by a preliminary reading of <a href="https://openreview.net/forum?id=GRMfXcAAFh">Linear oscillatory state-space models</a> presented by T. Konstantin Rusch and Daniela Rus at ICLR 2025. This publication combines several desirable qualities.</p>
+<ol>
+<li>It is based on a justified theoretical model</li>
+<li>The approach strongly inspired by physics and neurobiology</li>
+<li>It exercises mathematical rigour<sup>1</sup></li>
+<li>It includes empirical evidence</li>
+<li>It provides a reference implementation</li>
+<li>The approach could have substantial impact in multiple domains</li>
+<li>It is actually an enjoyable read!</li>
+</ol>
+<p>Leaving aside the formal perspective, the ability to model very long-range interactions on multivariate sequences with high accuracy using a theoretically well-grounded model makes the publication appealing especially for domains where explainability is important.</p>
+<hr>
+<p><sub>1. I have not verified the claims, but as opposed to theoretical contributions in other publications, given sufficient time the proofs actually appear rather digestable mainly drawing from Calculus and Linear Algebra</sub></p>                </article>
             </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">

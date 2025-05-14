@@ -5,135 +5,49 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content="Pelican" />
         <title>Notes on Data Science</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="https://stefanschmidt.github.io/theme/css/main.css" />
+        <link href="https://stefanschmidt.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Notes on Data Science Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Notes on Data Science</a></h1>
+                <h1><a href="https://stefanschmidt.github.io/">Notes on Data Science</a></h1>
                 <nav><ul>
-                    <li><a href="/category/internal.html">Internal</a></li>
-                    <li><a href="/category/jupyter.html">Jupyter</a></li>
-                    <li><a href="/category/numpy.html">NumPy</a></li>
-                    <li><a href="/category/statistics.html">Statistics</a></li>
+                    <li><a href="https://stefanschmidt.github.io/category/internal.html">Internal</a></li>
+                    <li><a href="https://stefanschmidt.github.io/category/jupyter.html">Jupyter</a></li>
+                    <li><a href="https://stefanschmidt.github.io/category/machine-learning.html">Machine Learning</a></li>
+                    <li><a href="https://stefanschmidt.github.io/category/numpy.html">NumPy</a></li>
+                    <li><a href="https://stefanschmidt.github.io/category/statistics.html">Statistics</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/normalized-median-absolute-deviation.html">Normalized Median Absolute Deviation</a></h1>
+                    <h1 class="entry-title"><a href="https://stefanschmidt.github.io/linear-oscillatory-state-space-models.html">Linear oscillatory state-space models</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2024-05-12T00:00:00+02:00">
-                Published: Sun 12 May 2024
+        <abbr class="published" title="2024-05-14T00:00:00+02:00">
+                Published: Tue 14 May 2024
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
+                By                         <a class="url fn" href="https://stefanschmidt.github.io/author/stefan.html">Stefan</a>
         </address>
-<p>In <a href="/category/statistics.html">Statistics</a>.</p>
+<p>In <a href="https://stefanschmidt.github.io/category/machine-learning.html">Machine Learning</a>.</p>
 
-</footer><!-- /.post-info --><p>For detecting outliers in non-normally distributed data a common approach is computing the <em>modified z-scores</em>.</p>
-<p>Instead of the standard deviation the median absolute deviation is used as a measure of variability. The metric is defined as the median of the the absolute deviations from the sample median.</p>
-<div class="math">$${\tilde {X}}=\operatorname {median} (X)$$</div>
-<div class="math">$$\operatorname {MAD} =\operatorname {median} (|X_{i}-{\tilde {X}}|)$$</div>
-<p>The median absolute deviation can then be used to derive the modified z-scores. To make the scores comparable to the standard z-scores a normalization factor is added.</p>
-<div class="math">$$\operatorname{Modified\_Z} = \frac{0.6745\thinspace(X_{i}-{\tilde {X}})}{\operatorname {MAD}}$$</div>
-<p>One might wonder where the normalization constant comes from and how it can be derived.</p>
-<p>A naive empirical approach is to compute the median absolute deviation for a sufficiently large sample from the standard normal distribution.</p>
-<div class="math">$$Z \sim \mathcal{N}(0, 1)$$</div>
-<div class="math">$$\operatorname{MAD}(Z) \approx 0.6745$$</div>
-<div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">median_abs_deviation</span><span class="p">(</span><span class="n">Z</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
-<span class="go">0.6745</span>
-</code></pre></div>
-
-<p>Since the mean and the median of the standard normal distribution are both <span class="math">\(\mu = 0\)</span> the median absolute deviation simplifies to the median of the absolute values of the sample.</p>
-<div class="math">$$\operatorname{MAD}(Z) = \operatorname {median} (|Z|) \approx 0.6745$$</div>
-<div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Z</span><span class="p">)),</span> <span class="mi">4</span><span class="p">)</span>
-<span class="go">0.6745</span>
-</code></pre></div>
-
-<p>Applying the absolute function to a sample that follows the standard normal distribution results in a <a href="https://en.wikipedia.org/wiki/Half-normal_distribution">standard half-normal distribution</a> where the quantile is defined as</p>
-<div class="math">$$Q(F)= {\sqrt {2}}\operatorname {erf} ^{-1}(F)$$</div>
-<p>and therefore the median can be computed as     </p>
-<div class="math">$$\operatorname {median} (|Z|) = {\sqrt {2}}\operatorname {erf} ^{-1}(1/2)\approx 0.6745$$</div>
-<p>While the inverse error function has no closed-form solution it can be efficiently approximated, providing a much more convenient method for deriving the normalization factor.</p>
-<p>SciPy provides various ways to compute the median of the standard half-normal distribution.</p>
-<div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">halfnorm</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-<span class="go">0.6744897501960817</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">halfnorm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="go">0.6744897501960817</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
-<span class="go">0.6744897501960817</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">erfinv</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="go">0.6744897501960818</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">ndtri</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
-<span class="go">0.6744897501960817</span>
-</code></pre></div>
-
-<p>The SciPy implementation of the inverse error function uses different approximation approaches depending upon the input value. The original implementation can be found in <a href="https://github.com/scipy/scipy/blob/afc5f9da5760c5925ff49d1aa875446c1637d123/scipy/special/cephes/ndtri.c"><code>ndtri.c</code></a>. The algorithm essentially performs a rational polynomial approximation. A <a href="https://gist.github.com/stefanschmidt/d4cd1d8622c288a43b3af26ee82f01ee">minimal reimplementation</a> of <code>ndtri.c</code> yields the same approximation. The implementation may have originated from <a href="https://openlibrary.org/works/OL4789014W/Methods_and_programs_for_mathematical_functions">Methods and Programs for Mathematical Functions </a>.</p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>                </article>
+</footer><!-- /.post-info --><p>A common critique of machine learning research is that the results of many papers are based on trial-and-error, often representing only minor modifications of existing approaches and without any proper justification of the design decisions. The typical justification for publication is that a model resulted in a good score on some established benchmark, with the <a href="https://arxiv.org/abs/2502.00561">validity of these benchmarks</a> being a topic on its own. Even from an engineering perspective this is obviously highly undesirable.</p>
+<p>I was therefore very delighted by a preliminary reading of <a href="https://openreview.net/forum?id=GRMfXcAAFh">Linear oscillatory state-space models</a> presented by T. Konstantin Rusch and Daniela Rus at ICLR 2025. This publication combines several desirable qualities.</p>
+<ol>
+<li>It is based on a justified theoretical model</li>
+<li>The approach strongly inspired by physics and neurobiology</li>
+<li>It exercises mathematical rigour<sup>1</sup></li>
+<li>It includes empirical evidence</li>
+<li>It provides a reference implementation</li>
+<li>The approach could have substantial impact in multiple domains</li>
+<li>It is actually an enjoyable read!</li>
+</ol>
+<p>Leaving aside the formal perspective, the ability to model very long-range interactions on multivariate sequences with high accuracy using a theoretically well-grounded model makes the publication appealing especially for domains where explainability is important.</p>
+<hr>
+<p><sub>1. I have not verified the claims, but as opposed to theoretical contributions in other publications, given sufficient time the proofs actually appear rather digestable mainly drawing from Calculus and Linear Algebra</sub></p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
@@ -142,7 +56,31 @@
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/standard-normal-distribution-in-a-nutshell.html" rel="bookmark"
+                    <h1><a href="https://stefanschmidt.github.io/normalized-median-absolute-deviation.html" rel="bookmark"
+                           title="Permalink to Normalized Median Absolute Deviation">Normalized Median Absolute Deviation</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2024-05-12T00:00:00+02:00">
+                Published: Sun 12 May 2024
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://stefanschmidt.github.io/author/stefan.html">Stefan</a>
+        </address>
+<p>In <a href="https://stefanschmidt.github.io/category/statistics.html">Statistics</a>.</p>
+
+</footer><!-- /.post-info -->                <p>For detecting outliers in non-normally distributed data a common approach is computing the <em>modified z-scores</em>.</p>
+<p>Instead of the standard deviation the median absolute deviation is used as a measure of variability. The metric is defined as the median of the the absolute deviations from the sample median.</p>
+<div class="math">$${\tilde {X}}=\operatorname …</div>
+                <a class="readmore" href="https://stefanschmidt.github.io/normalized-median-absolute-deviation.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://stefanschmidt.github.io/standard-normal-distribution-in-a-nutshell.html" rel="bookmark"
                            title="Permalink to Standard Normal Distribution in a Nutshell">Standard Normal Distribution in a Nutshell</a></h1>
                 </header>
 
@@ -153,22 +91,22 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
+                By                         <a class="url fn" href="https://stefanschmidt.github.io/author/stefan.html">Stefan</a>
         </address>
-<p>In <a href="/category/statistics.html">Statistics</a>.</p>
+<p>In <a href="https://stefanschmidt.github.io/category/statistics.html">Statistics</a>.</p>
 
 </footer><!-- /.post-info -->                <p>Given a Gaussian function that depicts the well-known bell-shaped curve.</p>
 <div class="math">$$p(x)=e^{-x^{2}/2},\quad x\in (-\infty ,\infty )$$</div>
 <p>We can compute the integral.</p>
 <div class="math">$$\int _{-\infty }^{\infty }p(x)\,dx=\int _{-\infty }^{\infty }e^{-x^{2}/2}\,dx={\sqrt {2\pi \,}}.$$</div>
 <p>Dividing the Gaussian function by …</p>
-                <a class="readmore" href="/standard-normal-distribution-in-a-nutshell.html">read more</a>
+                <a class="readmore" href="https://stefanschmidt.github.io/standard-normal-distribution-in-a-nutshell.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/an-iterative-workflow-for-jupyter-notebook.html" rel="bookmark"
+                    <h1><a href="https://stefanschmidt.github.io/an-iterative-workflow-for-jupyter-notebook.html" rel="bookmark"
                            title="Permalink to An Iterative Workflow for Jupyter Notebook">An Iterative Workflow for Jupyter Notebook</a></h1>
                 </header>
 
@@ -179,18 +117,18 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
+                By                         <a class="url fn" href="https://stefanschmidt.github.io/author/stefan.html">Stefan</a>
         </address>
-<p>In <a href="/category/jupyter.html">Jupyter</a>.</p>
+<p>In <a href="https://stefanschmidt.github.io/category/jupyter.html">Jupyter</a>.</p>
 
 </footer><!-- /.post-info -->                <p>Inspecting a data set is usually not a linear process, but involves iterative refinement of the initial assumptions and question. One might have an initial question but after taking a look at the data set realize that it requires multiple preprocessing steps before it can be used to address the …</p>
-                <a class="readmore" href="/an-iterative-workflow-for-jupyter-notebook.html">read more</a>
+                <a class="readmore" href="https://stefanschmidt.github.io/an-iterative-workflow-for-jupyter-notebook.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/a-mathematical-view-on-broadcasting.html" rel="bookmark"
+                    <h1><a href="https://stefanschmidt.github.io/a-mathematical-view-on-broadcasting.html" rel="bookmark"
                            title="Permalink to A Mathematical View on Broadcasting">A Mathematical View on Broadcasting</a></h1>
                 </header>
 
@@ -201,22 +139,22 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
+                By                         <a class="url fn" href="https://stefanschmidt.github.io/author/stefan.html">Stefan</a>
         </address>
-<p>In <a href="/category/numpy.html">NumPy</a>.</p>
+<p>In <a href="https://stefanschmidt.github.io/category/numpy.html">NumPy</a>.</p>
 
 </footer><!-- /.post-info -->                <p>The <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">Broadcasting</a> mechanism in NumPy is usually introduced by explaining the relevant rules.</p></p>
 <p>Another perspective is to look at the topic from a <a href="https://books.google.de/books?id=NJw3EAAAQBAJ&amp;pg=PA101">mathematical viewpoint</a>.</p>
 <p>The initial example is the addition of a function and a constant.</p>
 <div class="math">$$f:= \sin{} + C$$</div>
 <p>The authors argue that this is not proper mathematical notation …</p>
-                <a class="readmore" href="/a-mathematical-view-on-broadcasting.html">read more</a>
+                <a class="readmore" href="https://stefanschmidt.github.io/a-mathematical-view-on-broadcasting.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/start.html" rel="bookmark"
+                    <h1><a href="https://stefanschmidt.github.io/start.html" rel="bookmark"
                            title="Permalink to Start">Start</a></h1>
                 </header>
 
@@ -227,13 +165,13 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
+                By                         <a class="url fn" href="https://stefanschmidt.github.io/author/stefan.html">Stefan</a>
         </address>
-<p>In <a href="/category/internal.html">Internal</a>.</p>
+<p>In <a href="https://stefanschmidt.github.io/category/internal.html">Internal</a>.</p>
 
 </footer><!-- /.post-info -->                <p>Here I will write about things related to data science.</p>
 <p>For now this site is just a mockup. I will probably use a static site generator and Drafts to write postings.</p>
-                <a class="readmore" href="/start.html">read more</a>
+                <a class="readmore" href="https://stefanschmidt.github.io/start.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
@@ -249,6 +187,7 @@
                 <div class="social">
                         <h2>Me writing about Tech stuff</h2>
                         <ul>
+                            <li><a href="https://stefanschmidt.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="https://stackoverflow.com/users/360365/stefan-schmidt">Stack Overflow</a></li>
                             <li><a href="https://gist.github.com/stefanschmidt">Gists</a></li>

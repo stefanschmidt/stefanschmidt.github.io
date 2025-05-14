@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Notes on Data Science</title><link href="https://stefanschmidt.github.io/" rel="alternate"></link><link href="https://stefanschmidt.github.io/feeds/all.atom.xml" rel="self"></link><id>https://stefanschmidt.github.io/</id><updated>2024-05-14T00:00:00+02:00</updated><entry><title>Linear oscillatory state-space models</title><link href="https://stefanschmidt.github.io/linear-oscillatory-state-space-models.html" rel="alternate"></link><published>2024-05-14T00:00:00+02:00</published><updated>2024-05-14T00:00:00+02:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-05-14:/linear-oscillatory-state-space-models.html</id><summary type="html">&lt;p&gt;A common critique of machine learning research is that the results of many papers are based on trial-and-error, often representing only minor modifications of existing approaches and without any proper justification of the design decisions. The typical justification for publication is that a model resulted in a good score on …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A common critique of machine learning research is that the results of many papers are based on trial-and-error, often representing only minor modifications of existing approaches and without any proper justification of the design decisions. The typical justification for publication is that a model resulted in a good score on some established benchmark, with the &lt;a href="https://arxiv.org/abs/2502.00561"&gt;validity of these benchmarks&lt;/a&gt; being a topic on its own. Even from an engineering perspective this is obviously highly undesirable.&lt;/p&gt;
+&lt;p&gt;I was therefore very delighted by a preliminary reading of &lt;a href="https://openreview.net/forum?id=GRMfXcAAFh"&gt;Linear oscillatory state-space models&lt;/a&gt; presented by T. Konstantin Rusch and Daniela Rus at ICLR 2025. This publication combines several desirable qualities.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;It is based on a justified theoretical model&lt;/li&gt;
+&lt;li&gt;The approach strongly inspired by physics and neurobiology&lt;/li&gt;
+&lt;li&gt;It exercises mathematical rigour&lt;sup&gt;1&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;It includes empirical evidence&lt;/li&gt;
+&lt;li&gt;It provides a reference implementation&lt;/li&gt;
+&lt;li&gt;The approach could have substantial impact in multiple domains&lt;/li&gt;
+&lt;li&gt;It is actually an enjoyable read!&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Leaving aside the formal perspective, the ability to model very long-range interactions on multivariate sequences with high accuracy using a theoretically well-grounded model makes the publication appealing especially for domains where explainability is important.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;sub&gt;1. I have not verified the claims, but as opposed to theoretical contributions in other publications, given sufficient time the proofs actually appear rather digestable mainly drawing from Calculus and Linear Algebra&lt;/sub&gt;&lt;/p&gt;</content><category term="Machine Learning"></category></entry><entry><title>Normalized Median Absolute Deviation</title><link href="https://stefanschmidt.github.io/normalized-median-absolute-deviation.html" rel="alternate"></link><published>2024-05-12T00:00:00+02:00</published><updated>2024-05-12T00:00:00+02:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-05-12:/normalized-median-absolute-deviation.html</id><summary type="html">&lt;p&gt;For detecting outliers in non-normally distributed data a common approach is computing the &lt;em&gt;modified z-scores&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Instead of the standard deviation the median absolute deviation is used as a measure of variability. The metric is defined as the median of the the absolute deviations from the sample median.&lt;/p&gt;
+&lt;div class="math"&gt;$${\tilde {X}}=\operatorname …&lt;/div&gt;</summary><content type="html">&lt;p&gt;For detecting outliers in non-normally distributed data a common approach is computing the &lt;em&gt;modified z-scores&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Instead of the standard deviation the median absolute deviation is used as a measure of variability. The metric is defined as the median of the the absolute deviations from the sample median.&lt;/p&gt;
+&lt;div class="math"&gt;$${\tilde {X}}=\operatorname {median} (X)$$&lt;/div&gt;
+&lt;div class="math"&gt;$$\operatorname {MAD} =\operatorname {median} (|X_{i}-{\tilde {X}}|)$$&lt;/div&gt;
+&lt;p&gt;The median absolute deviation can then be used to derive the modified z-scores. To make the scores comparable to the standard z-scores a normalization factor is added.&lt;/p&gt;
+&lt;div class="math"&gt;$$\operatorname{Modified\_Z} = \frac{0.6745\thinspace(X_{i}-{\tilde {X}})}{\operatorname {MAD}}$$&lt;/div&gt;
+&lt;p&gt;One might wonder where the normalization constant comes from and how it can be derived.&lt;/p&gt;
+&lt;p&gt;A naive empirical approach is to compute the median absolute deviation for a sufficiently large sample from the standard normal distribution.&lt;/p&gt;
+&lt;div class="math"&gt;$$Z \sim \mathcal{N}(0, 1)$$&lt;/div&gt;
+&lt;div class="math"&gt;$$\operatorname{MAD}(Z) \approx 0.6745$$&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;norm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rvs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100000000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;median_abs_deviation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6745&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Since the mean and the median of the standard normal distribution are both &lt;span class="math"&gt;\(\mu = 0\)&lt;/span&gt; the median absolute deviation simplifies to the median of the absolute values of the sample.&lt;/p&gt;
+&lt;div class="math"&gt;$$\operatorname{MAD}(Z) = \operatorname {median} (|Z|) \approx 0.6745$$&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;median&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6745&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Applying the absolute function to a sample that follows the standard normal distribution results in a &lt;a href="https://en.wikipedia.org/wiki/Half-normal_distribution"&gt;standard half-normal distribution&lt;/a&gt; where the quantile is defined as&lt;/p&gt;
+&lt;div class="math"&gt;$$Q(F)= {\sqrt {2}}\operatorname {erf} ^{-1}(F)$$&lt;/div&gt;
+&lt;p&gt;and therefore the median can be computed as     &lt;/p&gt;
+&lt;div class="math"&gt;$$\operatorname {median} (|Z|) = {\sqrt {2}}\operatorname {erf} ^{-1}(1/2)\approx 0.6745$$&lt;/div&gt;
+&lt;p&gt;While the inverse error function has no closed-form solution it can be efficiently approximated, providing a much more convenient method for deriving the normalization factor.&lt;/p&gt;
+&lt;p&gt;SciPy provides various ways to compute the median of the standard half-normal distribution.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;halfnorm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;median&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960817&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;halfnorm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ppf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960817&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;norm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ppf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.75&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960817&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;special&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;erfinv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960818&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;special&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ndtri&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.75&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;0.6744897501960817&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The SciPy implementation of the inverse error function uses different approximation approaches depending upon the input value. The original implementation can be found in &lt;a href="https://github.com/scipy/scipy/blob/afc5f9da5760c5925ff49d1aa875446c1637d123/scipy/special/cephes/ndtri.c"&gt;&lt;code&gt;ndtri.c&lt;/code&gt;&lt;/a&gt;. The algorithm essentially performs a rational polynomial approximation. A &lt;a href="https://gist.github.com/stefanschmidt/d4cd1d8622c288a43b3af26ee82f01ee"&gt;minimal reimplementation&lt;/a&gt; of &lt;code&gt;ndtri.c&lt;/code&gt; yields the same approximation. The implementation may have originated from &lt;a href="https://openlibrary.org/works/OL4789014W/Methods_and_programs_for_mathematical_functions"&gt;Methods and Programs for Mathematical Functions &lt;/a&gt;.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Statistics"></category></entry><entry><title>Standard Normal Distribution in a Nutshell</title><link href="https://stefanschmidt.github.io/standard-normal-distribution-in-a-nutshell.html" rel="alternate"></link><published>2024-04-28T00:00:00+02:00</published><updated>2024-04-28T00:00:00+02:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-04-28:/standard-normal-distribution-in-a-nutshell.html</id><summary type="html">&lt;p&gt;Given a Gaussian function that depicts the well-known bell-shaped curve.&lt;/p&gt;
+&lt;div class="math"&gt;$$p(x)=e^{-x^{2}/2},\quad x\in (-\infty ,\infty )$$&lt;/div&gt;
+&lt;p&gt;We can compute the integral.&lt;/p&gt;
+&lt;div class="math"&gt;$$\int _{-\infty }^{\infty }p(x)\,dx=\int _{-\infty }^{\infty }e^{-x^{2}/2}\,dx={\sqrt {2\pi \,}}.$$&lt;/div&gt;
+&lt;p&gt;Dividing the Gaussian function by …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Given a Gaussian function that depicts the well-known bell-shaped curve.&lt;/p&gt;
+&lt;div class="math"&gt;$$p(x)=e^{-x^{2}/2},\quad x\in (-\infty ,\infty )$$&lt;/div&gt;
+&lt;p&gt;We can compute the integral.&lt;/p&gt;
+&lt;div class="math"&gt;$$\int _{-\infty }^{\infty }p(x)\,dx=\int _{-\infty }^{\infty }e^{-x^{2}/2}\,dx={\sqrt {2\pi \,}}.$$&lt;/div&gt;
+&lt;p&gt;Dividing the Gaussian function by this factor scales the area under the curve to one which gives us the probability density function of the standard normal distribution.&lt;/p&gt;
+&lt;div class="math"&gt;$$\varphi (x)={\frac {1}{\sqrt {2\pi \,}}}p(x)={\frac {1}{\sqrt {2\pi \,}}}e^{-x^{2}/2}$$&lt;/div&gt;
+&lt;p&gt;One can see that including the factor of &lt;span class="math"&gt;\(\frac{1}{2}\)&lt;/span&gt; in the Gaussian function gives us the established definition of the standard normal distribution having &lt;span class="math"&gt;\(\mu = 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(\sigma = 1\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;If one wonders why the normalization constant includes &lt;span class="math"&gt;\(\pi\)&lt;/span&gt; in the denominator, the answer is a bit more involved but the short version is that when computing the &lt;a href="https://en.wikipedia.org/wiki/Gaussian_integral"&gt;Gaussian Integral&lt;/a&gt; the variables are transformed to polar coordinates.&lt;/p&gt;
+&lt;p&gt;I stumbled over this derivation while peeking into &lt;a href="https://books.google.de/books?id=QRpvEAAAQBAJ&amp;amp;printsec=frontcover"&gt;The Principles of Deep Learning Theory&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The text is rather dense, but appears to be a wortwhile read.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Statistics"></category></entry><entry><title>An Iterative Workflow for Jupyter Notebook</title><link href="https://stefanschmidt.github.io/an-iterative-workflow-for-jupyter-notebook.html" rel="alternate"></link><published>2024-04-02T00:00:00+02:00</published><updated>2024-04-02T00:00:00+02:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-04-02:/an-iterative-workflow-for-jupyter-notebook.html</id><summary type="html">&lt;p&gt;Inspecting a data set is usually not a linear process, but involves iterative refinement of the initial assumptions and question. One might have an initial question but after taking a look at the data set realize that it requires multiple preprocessing steps before it can be used to address the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Inspecting a data set is usually not a linear process, but involves iterative refinement of the initial assumptions and question. One might have an initial question but after taking a look at the data set realize that it requires multiple preprocessing steps before it can be used to address the question.&lt;/p&gt;
+&lt;p&gt;Jupyter Notebook may be very nice for presenting the &lt;em&gt;results&lt;/em&gt; of a data analysis, but using it for an iterative workflow feels not nearly as productive as working on the command-line interface with the Python interpreter, which leaves the question if there is some room for improvement.&lt;/p&gt;
+&lt;p&gt;One thing I noticed that eats up &lt;em&gt;a lot&lt;/em&gt; of time while working with Jupyter Notebook is scrolling through the notebook to locate something in a cell. This can be a snippet of code, some documentation or an error message.&lt;/p&gt;
+&lt;h1&gt;More keyboard, less mouse&lt;/h1&gt;
+&lt;p&gt;One obvious way to increase productivity is to to work with the keyboard as much as possible, not touching the mouse unless absolutely necessary. Reminding of Vims modes, Jupyter Notebook allows switching between edit mode and command mode allowing to move upwards and downwards, insert and remove cells, etc. and has keyboard shortcuts at least for some menu entries.&lt;/p&gt;
+&lt;h1&gt;Less scrolling in error messages&lt;/h1&gt;
+&lt;p&gt;Another thing I noticed is that error messages feel &lt;em&gt;very&lt;/em&gt; verbose compared to the command-line interface. To see the actual exception one often needs to repeatedly scroll downwards. When comparing the form of presentation to the Python command-line interface I noticed that the error messages not only include the stack trace but also the context of each function call. This may certainly be useful if one is debugging or developing an API, but otherwise it is often merely a form of distraction. Having less verbose error messages would mean spending less time on scrolling through the notebook.&lt;/p&gt;
+&lt;p&gt;Luckily the IPython kernel in Jupyter Notebook provides several levels of verbosity for exceptions: &lt;code&gt;Plain&lt;/code&gt;, &lt;code&gt;Context&lt;/code&gt;, &lt;code&gt;Verbose&lt;/code&gt; and &lt;code&gt;Minimal&lt;/code&gt;. The default is &lt;code&gt;Context&lt;/code&gt; which is even more verbose than the default in the Python Interpreter. &lt;code&gt;Minimal&lt;/code&gt; ommits the stack trace, showing just the actual exception.&lt;/p&gt;
+&lt;p&gt;To set the exception verbosity in Jupyter for an individual notebook one can use &lt;a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-xmode"&gt;&lt;code&gt;xmode&lt;/code&gt;&lt;/a&gt;. There is also a configuration setting &lt;a href="https://ipython.readthedocs.io/en/stable/config/options/kernel.html#configtrait-InteractiveShell.xmode"&gt;&lt;code&gt;c.InteractiveShell.xmode&lt;/code&gt;&lt;/a&gt; that can be enabled in &lt;a href="https://ipython.readthedocs.io/en/stable/config/intro.html"&gt;&lt;code&gt;ipython_kernel_config.py&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In comparison the Python interpreter allows to set the verbosity either on the command-line with &lt;a href="https://docs.python.org/3/using/cmdline.html#cmdoption-v"&gt;&lt;code&gt;-v&lt;/code&gt;&lt;/a&gt;, by setting the environment variable &lt;a href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHONVERBOSE"&gt;&lt;code&gt;PYTHONVERBOSE&lt;/code&gt;&lt;/a&gt; or in the interpreter using &lt;a href="https://docs.python.org/3/library/sys.html#sys.tracebacklimit"&gt;&lt;code&gt;sys.tracebacklimit&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;Connect the terminal with the browser&lt;/h1&gt;
+&lt;p&gt;Minimizing the number of mouse interactions by using keyboard shortcuts and reducing the scrolling through error messages by making them less verbose certainly has some potential to make an iterative workflow in Juypter Notebook more productive.&lt;/p&gt;
+&lt;p&gt;A different approach would be have an integration of the Python interpreter in the terminal and the notebook in the browser allowing to seamlessly switch back and forth. Any variable created in the notebook should be available in the Python interpreter in the terminal and vice-versa. While Jupyter &lt;em&gt;does&lt;/em&gt; allow to open a console within the browser it does not provide the same user experience as the Python interpreter in a terminal window.&lt;/p&gt;
+&lt;p&gt;Connecting the original Python interpreter to the kernel of an already running notebook is certainly technically possible but it seems there is no convenient built-in method that wraps things nicely up.&lt;/p&gt;
+&lt;p&gt;It is however possible to connect an IPython interpreter in the terminal with the kernel of an already running notebook using either &lt;code&gt;jupyter console --existing&lt;/code&gt; to connect to the most recent kernel that was started or &lt;code&gt;jupyter console --existing kernel.json&lt;/code&gt; to connect to a specific kernel. To get the file name of a kernel from an already running notebook one can use &lt;a href="https://ipython.readthedocs.io/en/stable/overview.html"&gt;&lt;code&gt;%connect_info&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;While the IPython interpreter is supposed to provide an improved user experience I prefer the original Python interpreter. A workaround might be to adjust the behaviour of the IPython interpreter to more closely align with the original Python interpreter but I have not investigated if that is possible. Nonetheless being able to connect from the terminal to an already running notebook in Jupyter is a promising productivity gain.&lt;/p&gt;</content><category term="Jupyter"></category></entry><entry><title>A Mathematical View on Broadcasting</title><link href="https://stefanschmidt.github.io/a-mathematical-view-on-broadcasting.html" rel="alternate"></link><published>2024-03-05T00:00:00+01:00</published><updated>2024-03-05T00:00:00+01:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-03-05:/a-mathematical-view-on-broadcasting.html</id><summary type="html">&lt;p&gt;The &lt;a href="https://numpy.org/doc/stable/user/basics.broadcasting.html"&gt;Broadcasting&lt;/a&gt; mechanism in NumPy is usually introduced by explaining the relevant rules.&lt;/p&gt;&lt;/p&gt;
+&lt;p&gt;Another perspective is to look at the topic from a &lt;a href="https://books.google.de/books?id=NJw3EAAAQBAJ&amp;amp;pg=PA101"&gt;mathematical viewpoint&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The initial example is the addition of a function and a constant.&lt;/p&gt;
+&lt;div class="math"&gt;$$f:= \sin{} + C$$&lt;/div&gt;
+&lt;p&gt;The authors argue that this is not proper mathematical notation …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The &lt;a href="https://numpy.org/doc/stable/user/basics.broadcasting.html"&gt;Broadcasting&lt;/a&gt; mechanism in NumPy is usually introduced by explaining the relevant rules.&lt;/p&gt;&lt;/p&gt;
+&lt;p&gt;Another perspective is to look at the topic from a &lt;a href="https://books.google.de/books?id=NJw3EAAAQBAJ&amp;amp;pg=PA101"&gt;mathematical viewpoint&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The initial example is the addition of a function and a constant.&lt;/p&gt;
+&lt;div class="math"&gt;$$f:= \sin{} + C$$&lt;/div&gt;
+&lt;p&gt;The authors argue that this is not proper mathematical notation and resolve it by defining a broadcast function for the constant.&lt;/p&gt;
+&lt;div class="math"&gt;$$\overline{C}:= C \thinspace \text{ for all } x$$&lt;/div&gt;
+&lt;p&gt;The result is the addition of two functions, the sine function and a constant function.&lt;/p&gt;
+&lt;div class="math"&gt;$$f:= \sin{} + \overline{C}$$&lt;/div&gt;
+&lt;p&gt;Which could also be written as&lt;/p&gt;
+&lt;div class="math"&gt;$$f:= \sin(x) + \overline{C}(x)$$&lt;/div&gt;
+&lt;p&gt;It is not quite clear to me what the intention of the authors was to leave out the function parameters. I assume they were omitted to make it clear that what being talked about is the mathematical objects rather than specific numerical outputs.&lt;/p&gt;
+&lt;p&gt;The question &lt;a href="https://math.stackexchange.com/questions/65002/are-one-by-one-matrices-equivalent-to-scalars"&gt;whether a 1×1 matrix should be considered a scalar&lt;/a&gt; is a similar topic with regard to notation.&lt;/p&gt;
+&lt;p&gt;A perspective that tries to bring together rigour and practicality:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A 1×1 matrix is not a scalar–it is an element of a matrix algebra. However, there is sometimes a meaningful way of treating a 1×1 matrix as though it were a scalar, hence in many contexts it is useful to treat such matrices as being "functionally equivalent" to scalars. It might be a little sloppy to do so, but a little bit of sloppiness is forgivable if it introduces no confusion or ambiguity, and if it aids brevity or clarity of exposition.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;With the objection:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We can cast any real &lt;span class="math"&gt;\(x\)&lt;/span&gt; to the constant function on &lt;span class="math"&gt;\(\mathbb{R}\)&lt;/span&gt; whose value is always &lt;span class="math"&gt;\(x\)&lt;/span&gt;, but are reals and constant functions "functionally equivalent"? Well... no, a function can be evaluated at a point, while a real has no such feature.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;And the remark:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Okay I guess the added words "in the right context", in the right context, would evade my objection. Namely, if we interpret it to mean that scalars and 1-by-1 matrices, when used in certain specific ways, can be treated as functionally equivalent, then I agree. =)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Handling of a 1x1 array in NumPy:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reshape&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;numpy.ndarray&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
+&lt;span class="go"&gt;(1, 1)&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;numpy.int64&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;int&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Similar for a zero-dimensional array:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;numpy.ndarray&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
+&lt;span class="go"&gt;()&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[()])&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;numpy.int64&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;class &amp;#39;int&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="NumPy"></category></entry><entry><title>Start</title><link href="https://stefanschmidt.github.io/start.html" rel="alternate"></link><published>2024-03-05T00:00:00+01:00</published><updated>2024-03-05T00:00:00+01:00</updated><author><name>Stefan</name></author><id>tag:stefanschmidt.github.io,2024-03-05:/start.html</id><content type="html">&lt;p&gt;Here I will write about things related to data science.&lt;/p&gt;
+&lt;p&gt;For now this site is just a mockup. I will probably use a static site generator and Drafts to write postings.&lt;/p&gt;</content><category term="Internal"></category></entry></feed>
