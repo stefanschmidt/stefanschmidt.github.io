@@ -77,6 +77,18 @@ article {
 strong, b {font-weight: bold;}
 em, i {font-style: italic;}
 
+/* Superscript and Subscript */
+sup {
+    vertical-align: super;
+    font-size: 0.75em;
+    line-height: 0;
+}
+sub {
+    vertical-align: sub;
+    font-size: 0.75em;
+    line-height: 0;
+}
+
 /* Lists */
 ul {
 	list-style: outside disc;
