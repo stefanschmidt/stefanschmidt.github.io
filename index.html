@@ -23,7 +23,56 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/the-golden-age-of-education.html">The golden age of education</a></h1>
+                    <h1 class="entry-title"><a href="/llm-mathematics-tutoring-done-right.html">LLM mathematics tutoring done right</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2025-07-04T00:00:00+02:00">
+                Published: Fri 04 July 2025
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/stefan.html">Stefan</a>
+        </address>
+<p>In <a href="/category/learning.html">Learning</a>.</p>
+
+</footer><!-- /.post-info --><p>As <a href="the-golden-age-of-education.html">mentioned before</a> I have a very positive view on the long-term impact of large language models on higher education.</p>
+<p>A <a href="https://www.newyorker.com/magazine/2025/07/07/the-end-of-the-english-paper">recent article</a> in The New Yorker on the topic departs a bit from their usual stance of cultural pessimism and actually brought me to an interesting study on LLM tutoring.</p>
+<blockquote>
+<p>In 2023, researchers at Harvard introduced a self-paced A.I. tutor in a popular physics course. Students who used the A.I. tutor reported higher levels of engagement and motivation and did better on a test than those who were learning from a professor. May, the Georgetown student, told me that she often has ChatGPT produce extra practice questions when she's studying for a test. Could A.I. be here not to destroy education but to revolutionize it?</p>
+</blockquote>
+<p>In the introduction of a <a href="https://doi.org/10.1038/s41598-025-97652-6">more recent study</a> the authors address a common misunderstanding with regard to the role of large language models when offered as general purpose tool.</p>
+<blockquote>
+<p>While these models can answer technical questions, their unguided use lets students complete assignments without engaging in critical thinking. After all, AI chatbots are generally designed to be helpful, not to promote learning.</p>
+</blockquote>
+<p>In my own experience it actually requires a bit of persistence to make common LLM chatbots take the role of a tutor in a reliable way and I'm not even talking about following pedagogical best practices as mentioned by authors.</p>
+<p>The bare minimum requirement for any meaningful tutoring is to <em>not</em> give away the answer. If I am stuck on some topic I want the tutor to give me very subtle hint that gently nudges my thinking in the right direction. I do not want a hint that essentially acts as huge arrow in form of a neon sign pointing to the solution.</p>
+<p>The only way that I have gotten this to work reliably in the web interfaces of the usual suspects is to append a very explicit prompt to every message.</p>
+<blockquote>
+<p>VERY IMPORTANT: If the answer is incorrect you will <em>not</em> return complete step-by-step instructions, you will only provide a brief <em>very</em> slight hint on how to proceed.</p>
+<p>VERY IMPORTANT: You will under <em>no</em> circumstances give away the answer.</p>
+</blockquote>
+<p>This is obviously a crude workaround. Accessing the models via API would improve the situation but I have yet to find a provider agnostic GUI or CLI for LLM APIs that really sparks joy in me. Claude Code has by far been the best experience, but the provider and the <a href="https://kirshatrov.com/posts/claude-code-internals">prompts</a> are obviously hardwired.</p>
+<p>The <a href="https://static-content.springer.com/esm/art%3A10.1038%2Fs41598-025-97652-6/MediaObjects/41598_2025_97652_MOESM1_ESM.docx">base system prompt</a> used in the above mentioned physics tutoring system reflects this experience, although the researchers have taken a more liberal approach with regard to level of information that shall be provided.</p>
+<blockquote>
+<p>Important: Only give away ONE STEP AT A TIME, DO NOT give away the full solution in a single message</p>
+</blockquote>
+<p>Another interesting avenue to explore might be few-shot learning, essentially providing a number of examples and counter-examples of what constitutes good  tutoring.</p>
+<p>What's nice is that recognition of handwritten mathematics on paper works really well even for quickly jotted notes, at least with Claude. This inspired me to configure a mechanism to directly transfer the images of my camera to a Claude Code-based tutoring environment using the custom destinations feature of a <a href="https://agiletortoise.com/simple-scan/">really nice app</a>. An overhead camera stand and a remote shutter button could further minimize the distraction when taking a snapshot.</p>
+<p>What's currently lacking when using the web interface of Claude for mathematics tutoring is that the analysis tool only includes very rudimentary support for symbolic algebra and the artifacts don't support code execution. Claude Code on the other hand can generate code for SymPy or Lean and evaluate the results.</p>
+<p>Another advantage of Claude Code is using arbitrarily large document collections as factual grounding and having configurable persistent memory. This allows to use extensive sources such as <a href="https://github.com/wellecks/naturalproofs">ProofWiki as JSON</a> which would not fit in the context window and to implement spaced repetition based on a learning log.</p>
+<p>As initially stated I see large opportunities for using large language models for higher education and I am optimistic that nicely wrapped up applications providing something along the lines of the above described environment will soon be available.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/the-golden-age-of-education.html" rel="bookmark"
+                           title="Permalink to The golden age of education">The golden age of education</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2025-06-19T00:00:00+02:00">
                 Published: Thu 19 June 2025
@@ -34,40 +83,11 @@
         </address>
 <p>In <a href="/category/learning.html">Learning</a>.</p>
 
-</footer><!-- /.post-info --><p>When talking about education and large language models the general sentiment appears to be that they are simply the end of education. I find this quite bewildering since I have exactly the opposite perception.</p>
-<p>I certainly do not aim to disentangle the emotional-cognitive mess of the topic<sup>1</sup> but rather wish to briefly argue for two perspectives.</p>
-<h2>1. Free cheating for everyone, yay!</h2>
-<p>In the short-term large language models are nothing new, they just democratize gaming the educational system.</p>
-<p>A piece of circumstantial evidence for this perspective is an article published a few months after the launch of the genre defining chatbot. It describes how ChatGPT is essentially the <a href="https://www.wired.com/story/chegg-embraced-ai-chatgpt-ate-its-lunch-anyway/">natural successor</a> to an online service called Chegg. Prior to reading the article I had never heard of the company before but apparently in the pre-llm era it was basically the go-to place for college students to outsource their learning activities.</p>
-<p>In line with the general discourse on generative AI the articles on the impact in the field of education are primarily centered on individual gains or losses and short-term phenomena like so-called "cheating".<sup>2</sup> I'm aware of two recently published rather comprehensive pieces that show this sentiment. One is an apparently quite <a href="https://www.404media.co/teachers-are-not-ok-ai-chatgpt/">extensively researched piece</a> and the other a rather <a href="https://nymag.com/intelligencer/article/openai-chatgpt-ai-cheating-education-college-students-school.html">sensationalist piece</a> which nonetheless bears some interestingness, although on a different level.</p>
-<h2>2. Let's steer this in good direction</h2>
-<p>In the long-term large language models have huge potential to improve individual learning.</p>
-<p>I'm aware that one might perceive this perspective as naïve or even utopian since the same has been stated about things like Wikipedia or open educational resources but I remain stubborn with my optimism.<sup>3</sup></p>
-<p>Generative AI is not the end of education, to the contrary it's a starting point to reflect about what really matters with respect to humanness.</p>
-<p>If I recall correctly Geoffrey Hinton mentioned in an interview that his main motivation for entering the field of artificial intelligence research was not to create artificial intelligence as a means to automate cognitive processes but instead to better understand what actually makes the human mind so human.<sup>4</sup></p>
-<p>It might be obvious, but I would argue that most important prerequisite to successful learning in the age of AI is to develop a healthy learning mindset. That doesn't mean that practical skills are irrelevant, but in my experience these can mostly be acquired in a short amount of time whereas developing a suitable learning mindset can take many years.</p>
-<p>A good starting point is to aim for consequently ignoring any systemic incentives and instead taking personal responsibility for one's learning. In practice of course it's often about finding a good compromise to balance out different goals in life, but having an awareness of one's doings and making conscious choices is certainly very different from simply following the path of least resistance.</p>
-<p>A mindset of critical curiosity is also certainly helpful. Scientific research and the open source community can be good environments here. There is maybe a bit of luck involved of having the privilege to meet people that have a positive influence in this respect.</p>
-<hr>
-<ol>
-<li>
-<p>A major challenge in forming an opinion on the impact of artificial intelligence on society is that many articles published on the matter do not have an genuine interest in producing insightful perspectives but are rather focused on reproducing the usual tropes. There are very few venues that stand out. In the short-form <a href="https://www.theverge.com/ai-artificial-intelligence">The Verge</a> is definitely recommendable. For the long-reads <a href="https://www.technologyreview.com/topic/artificial-intelligence/">MIT Technology Review</a> has some excellent authors. Occasionally <a href="https://www.newyorker.com/tag/artificial-intelligence">The New Yorker</a> also has an interesting piece but there tends be a bit of doomism bias.</p>
-</li>
-<li>
-<p>I will not go down the rabbit hole of properly defining and evaluating the meaningfulness of this informal term and it's more formal equivalents</p>
-</li>
-<li>
-<p>I was recently quite delighted when discovering the <a href="https://textbooks.aimath.org/">Open Textbook Initiative</a> of the American Institute of Mathematics</p>
-</li>
-<li>
-<p>On my book pile currently is <a href="https://press.uchicago.edu/ucp/books/book/chicago/B/bo180760293.html">The Book of Minds</a></p>
-</li>
-</ol>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>When talking about education and large language models the general sentiment appears to be that they are simply the end of education. I find this quite bewildering since I have exactly the opposite perception.</p>
+<p>I certainly do not aim to disentangle the emotional-cognitive mess of the topic<sup>1</sup> but rather …</p>
+                <a class="readmore" href="/the-golden-age-of-education.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
