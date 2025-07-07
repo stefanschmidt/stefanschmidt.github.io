@@ -43,15 +43,16 @@
 <blockquote>
 <p>While these models can answer technical questions, their unguided use lets students complete assignments without engaging in critical thinking. After all, AI chatbots are generally designed to be helpful, not to promote learning.</p>
 </blockquote>
-<p>In my own experience it actually requires a bit of persistence to make common LLM chatbots take the role of a tutor in a reliable way and I'm not even talking about following pedagogical best practices as mentioned by authors.</p>
+<p>In my own experience it can actually require a bit of persistence to make common LLM chatbots take the role of a tutor in a reliable way and I'm not even talking about following pedagogical best practices as mentioned by authors.</p>
 <p>The bare minimum requirement for any meaningful tutoring is to <em>not</em> give away the answer. If I am stuck on some topic I want the tutor to give me very subtle hint that gently nudges my thinking in the right direction. I do not want a hint that essentially acts as huge arrow in form of a neon sign pointing to the solution.</p>
-<p>The only way that I have gotten this to work reliably in the web interfaces of the usual suspects is to append a very explicit prompt to every message.</p>
+<p>The reliability of the LLM web interfaces to adhere to instructions appears to have greatly increased recently but I remember times not too long ago, when the only way to prevent the model from leaking the answer was a very explicit prompt appended to every message.</p>
 <blockquote>
 <p>VERY IMPORTANT: If the answer is incorrect you will <em>not</em> return complete step-by-step instructions, you will only provide a brief <em>very</em> slight hint on how to proceed.</p>
 <p>VERY IMPORTANT: You will under <em>no</em> circumstances give away the answer.</p>
 </blockquote>
-<p>This is obviously a crude workaround. Accessing the models via API would improve the situation but I have yet to find a provider agnostic GUI or CLI for LLM APIs that really sparks joy in me. Claude Code has by far been the best experience, but the provider and the <a href="https://kirshatrov.com/posts/claude-code-internals">prompts</a> are obviously hardwired.</p>
-<p>The <a href="https://static-content.springer.com/esm/art%3A10.1038%2Fs41598-025-97652-6/MediaObjects/41598_2025_97652_MOESM1_ESM.docx">base system prompt</a> used in the above mentioned physics tutoring system reflects this experience, although the researchers have taken a more liberal approach with regard to level of information that shall be provided.</p>
+<p>Of course not giving away the answer is by far not the only topic. Ideally there would be a custom user interface for tutoring that allows to control the level of verbosity, the concreteness of hints, the form of explanatory artifacts (text, diagram, interactive website) etc. and has a persistent memory to improve the learning experience.</p>
+<p>This would obviously require accessing the models via API but I have yet to find a provider agnostic GUI or CLI for LLM APIs that really sparks joy in me. <a href="https://www.anthropic.com/claude-code">Claude Code</a> has by far been the best experience, but the provider and the <a href="https://kirshatrov.com/posts/claude-code-internals">prompts</a> are obviously hardwired.</p>
+<p>The <a href="https://static-content.springer.com/esm/art%3A10.1038%2Fs41598-025-97652-6/MediaObjects/41598_2025_97652_MOESM1_ESM.docx">base system prompt</a> used in the above mentioned physics tutoring system reflects my personal experience, although the researchers have taken a more liberal approach with regard to level of information that shall be provided.</p>
 <blockquote>
 <p>Important: Only give away ONE STEP AT A TIME, DO NOT give away the full solution in a single message</p>
 </blockquote>
